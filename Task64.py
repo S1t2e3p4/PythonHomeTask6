@@ -1,8 +1,7 @@
 # Задача: предложить улучшения кода для уже решённых задач:
 # С помощью использования **лямбд, filter, map, zip, enumerate, list comprehension
 
-## Enumerate, lambda, filter, map were used
-# New decision of the task: Реализуйте RLE алгоритм: реализуйте модуль сжатия и восстановления данных.
+# Новое решение задачи: Реализуйте RLE алгоритм: реализуйте модуль сжатия и восстановления данных.
 
 import os
 os.system('cls')
@@ -45,7 +44,7 @@ def main():
 if __name__ == '__main__':
     main()
 
-# Previous decision
+# Решение 1
 
 # def compression(string):
 #     compressed_string = ''
