@@ -1,72 +1,85 @@
-# # Создайте программу для игры в ""Крестики-нолики"".
+# Задача: предложить улучшения кода для уже решённых задач:
+# С помощью использования **лямбд, filter, map, zip, enumerate, list comprehension
 
+# 
+# Сформировать случайным образом список коэффициентов (значения от 0 до 100) многочлена и записать в файл многочлен степени k.
+# Пример:
+# - k=2 => 2*x² + 4*x + 5 = 0 или x² + 5 = 0 или 10*x² = 0
+
+import os
 import random
+os.system('cls')
 
-board = [" " for x in range(9)]
+def check():
+    k = int(input('Введите число "K", соответствующее степени, в которую необходимо возвести коэффициенты списка: '))
+    while not 0<=k<=100:
+        print('Некорректный ввод. Уточните значение')
+        k = int(input('Введите число "K", соответствующее степени, в которую необходимо возвести коэффициенты списка: '))
+    return int(k)
 
-def print_board():
-    row1 = "| {} | {} | {} |".format(board[0], board[1], board[2])
-    row2 = "| {} | {} | {} |".format(board[3], board[4], board[5])
-    row3 = "| {} | {} | {} |".format(board[6], board[7], board[8])
+def main():
+    k = check()    
+    coef_list = [random.randint(0,100) for i in range(k+1)]
+    variables_list = ['x^'+str(k-i) for i in range(k)] + ['']
+
+    polynomial_list = [str(i)+j for i,j in zip(coef_list,variables_list)]
+    polynomial_list = [i.replace('x^1', 'x') for i in polynomial_list]
+    polynomial_list = list(filter(lambda x: not x.startswith('0x'), polynomial_list))
+    polynomial_list = list(map(lambda x: x.replace('1x', 'x') if x.startswith('1x') else x, polynomial_list))
+
+    polynomial = ' + '.join(polynomial_list)+' = 0'
+
+    print(coef_list)
     print()
-    print(row1)
-    print(row2)
-    print(row3)
-    print()
+    print(polynomial)
 
-def player_move(icon):
-    if icon == "X":
-        number = 1
-    elif icon == "O":
-        number = 2
-    print("Your turn player {}".format(number))
-    choice = int(input("Enter your move (1-9): ").strip())
-    if board[choice - 1] == " ":
-        board[choice - 1] = icon
-    else:
-        print()
-        print("That space is taken!")
+    with open('listofcoefficients.txt', 'w') as data:
+        data.write(polynomial)
 
-def computer_move():
-    print("Computer's turn")
-    possibleMoves = [x for x, letter in enumerate(board) if letter == " "]
-    move = random.choice(possibleMoves)
-    board[move] = "O"
+if __name__ == "__main__":
+    main()
 
-def is_victory(icon):
-    if (board[0] == icon and board[1] == icon and board[2] == icon) or \
-       (board[3] == icon and board[4] == icon and board[5] == icon) or \
-       (board[6] == icon and board[7] == icon and board[8] == icon) or \
-       (board[0] == icon and board[3] == icon and board[6] == icon) or \
-       (board[1] == icon and board[4] == icon and board[7] == icon) or \
-       (board[2] == icon and board[5] == icon and board[8] == icon) or \
-       (board[0] == icon and board[4] == icon and board[8] == icon) or \
-       (board[2] == icon and board[4] == icon and board[6] == icon):
-        return True
-    else:
-        return False
-    
-def is_draw():
-    if " " not in board:
-        return True
-    else:
-        return False
 
-while True:
-    print_board()
-    player_move("X")
-    if is_victory("X"):
-        print_board()
-        print("X wins! Congratulations!")
-        break
-    elif is_draw():
-        print("It's a draw!")
-        break
-    computer_move()
-    if is_victory("O"):
-        print_board()
-        print("O wins! You lose!")
-        break
-    elif is_draw():
-        print("It's a draw!")
-        break
+# Задана натуральная степень k. 
+# Сформировать случайным образом список коэффициентов (значения от 0 до 100) многочлена и записать в файл многочлен степени k.
+
+# Пример:
+# - k=2 => 2*x² + 4*x + 5 = 0 или x² + 5 = 0 или 10*x² = 0
+
+# import os
+# import random
+# os.system('cls')
+
+# def list_creation(num, limit):
+# new_list = []
+    # for _ in range(num+1):
+       #  new_list.append(random.randint(0, 100))
+    # print('Список коэффициентов:', new_list)
+    # return new_list
+
+# def check():
+    # k = int(input('Введите число "K", соответствующее степени, в которую необходимо возвести коэффициенты списка: '))
+    # while not 0<=k<=100:
+       # print('Некорректный ввод. Уточните значение')
+        # k = int(input('Введите число "K", соответствующее степени, в которую необходимо возвести коэффициенты списка: '))
+    # return int(k)
+
+# def main():
+    # k = check()    
+    # coef_list = list_creation(k, 100)
+    # with open('listofcoefficients.txt', 'w') as data:
+        # for i in range(k+1):
+            # if coef_list[i]==0:
+                # continue
+            # elif coef_list[i]==1:
+               #  data.write(f' x^{k-i} +')
+            # elif (k-i)==1:
+              #   data.write(f' {coef_list[i]*1}x +')
+            # elif (k-i)==0:
+           #      data.write(f' {coef_list[i]*1}')
+           #  else:
+           #      data.write(f' {coef_list[i]}x^{k-i} +')
+        # data.write(' = 0')
+
+# f __name__ == "__main__":
+    # main()
